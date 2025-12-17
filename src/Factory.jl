@@ -43,11 +43,8 @@ function build(modeltype::Type{MyOneDimensionalElementaryWolframRuleModel},
     # TODO: build the rule dictionary from the index, colors, and radius values in the data NamedTuple
     # TODO: Check out the `digits` function in Julia to help with this task
     # TODO: Make sure to comment out the throw statement below once you implement this functionality
-    #so should i learn this as if i'm using java as a reference language or is julia too fundamentally different? i'm like very stuck on where the equivalent things are all located and i wasn't sure if it would be easier to go through all the previous lessons/lectures or to get a general beginners overview of julia first
     throw(ErrorException("The rule dictionary construction from the index, colors, and radius values has not been implemented yet."));
-    # dictionaries are like arrays without ordering to the indices? they're called keys not indices?
-    # was this more covered in the labs or hte lectures?
-    # 
+
 
 
 

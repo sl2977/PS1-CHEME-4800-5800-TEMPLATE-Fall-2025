@@ -17,14 +17,33 @@ function _simulate(algorithm::WolframDeterministicSimulation, rulemodel::MyOneDi
     foreach(i -> frame[1,i] = initial[i], 1:width);    
     frames[1] = frame; # set the initial frame -
     
-    # TODO: implement the simulation run loop for the deterministic simulation here
-    # TODO: Make sure to comment out the throw statement below once you implement this functionality
-    throw(ErrorException("The simulation run loop for the deterministic simulation has not been implemented yet."));
+ # step through time
+    for t in 2:steps
+        # copy previous timestep
+        frame = copy(frames[t-1])
+        neighbor_states = Array{Int64,1}(undef, radius) |> a -> fill!(a, 0)
+        
+        # update each cell
+        for cell in 1:width
+            # handle wrapping at boundaries
+            left_cell = (cell == 1) ? width : cell - 1
+            right_cell = (cell == width) ? 1 : cell + 1
+            
+            neighbor_states[1] = frame[t-1, left_cell]
+            neighbor_states[2] = frame[t-1, cell]
+            neighbor_states[3] = frame[t-1, right_cell]
+            
+            # look up what state this neighborhood maps to
+            rule_index = parse(Int, join(neighbor_states), base = number_of_colors)
+            frame[t, cell] = rulemodel.rule[rule_index]
+        end
+        
+        frames[t] = frame
+    end
     
-
-    # return
-    return frames;
+    return frames
 end
+
 
 function _simulate(algorithm::WolframStochasticSimulation, rulemodel::MyOneDimensionalElementaryWolframRuleModel, initial::Array{Int64,1}; 
     steps::Int64 = 240, maxnumberofmoves::Union{Int64, Nothing} = nothing, 
