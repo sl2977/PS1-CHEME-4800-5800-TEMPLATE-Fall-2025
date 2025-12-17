@@ -10,6 +10,9 @@ const _INCLUDE_STUDENT_JL_CALLED = true;
 # if we are missing any packages, install them -
 using Pkg;
 if (isfile(joinpath(_ROOT, "Manifest.toml")) == false) # have manifest file, we are good. Otherwise, we need to instantiate the environment
+        #originally having trouble with installing and using this package
+    #need to go through the include.jl and opening up julia from terminal 
+    #to access the package
     Pkg.add(path="https://github.com/varnerlab/VLDataScienceMachineLearningPackage.jl.git")
     Pkg.activate("."); Pkg.resolve(); Pkg.instantiate(); Pkg.update();
 end
