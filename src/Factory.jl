@@ -41,14 +41,15 @@ function build(modeltype::Type{MyOneDimensionalElementaryWolframRuleModel},
     rule = Dict{Int,Int}(); # key: neighborhood state, value: resulting state
 
         # figure out how many possible neighborhood configurations exist
-    total_configs = num_colors^cell_radius;
-    
+    # figure out how many possible neighborhood configurations exist
+    total_configs = colors^(2*radius + 1);
+
     # convert rule index to base-n representation
-    rule_bits = digits(rule_index, base=num_colors, pad=total_configs);
-    
+    rule_bits = digits(index, base=colors, pad=total_configs);
+
     # map each neighborhood pattern to its output state
     for pattern_id ∈ 0:total_configs-1
-        lookup_table[pattern_id] = rule_bits[pattern_id+1];
+        rule[pattern_id] = rule_bits[pattern_id+1];
     end
 
     # set the data on the object
