@@ -40,15 +40,17 @@ function build(modeltype::Type{MyOneDimensionalElementaryWolframRuleModel},
     model = modeltype();
     rule = Dict{Int,Int}(); # key: neighborhood state, value: resulting state
 
-    # TODO: build the rule dictionary from the index, colors, and radius values in the data NamedTuple
-    # TODO: Check out the `digits` function in Julia to help with this task
-    # TODO: Make sure to comment out the throw statement below once you implement this functionality
-    throw(ErrorException("The rule dictionary construction from the index, colors, and radius values has not been implemented yet."));
-
-
-
-
+        # figure out how many possible neighborhood configurations exist
+    total_configs = num_colors^cell_radius;
     
+    # convert rule index to base-n representation
+    rule_bits = digits(rule_index, base=num_colors, pad=total_configs);
+    
+    # map each neighborhood pattern to its output state
+    for pattern_id ∈ 0:total_configs-1
+        lookup_table[pattern_id] = rule_bits[pattern_id+1];
+    end
+
     # set the data on the object
     model.index = index;
     model.rule = rule;
